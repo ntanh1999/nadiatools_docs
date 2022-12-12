@@ -275,7 +275,7 @@ Explaination:
 * ``-o results``: output to results folder.
 * ``-w single-cell``: use single-cell analysis workflow. (for single-nucleus sample, use ``-w single-nucleus`` )
 * ``-a starsolo``: use STARsolo pipeline
-* ``-s RNAdia``: this sample use RNAdia 2.0 reagent kit, so we will use :ref:` RNAdia barcode structure <rnadia-barcode-structure>`.
+* ``-s RNAdia``: this sample use RNAdia 2.0 reagent kit, so we will use :ref:`RNAdia barcode structure <rnadia-barcode-structure>`.
 * ``--top-cells 2500``: keep 2500 top barcodes
 * ``--mito "^MT-" --ribo "^RP[SL]"``: these arguments provides the regular expression for mitochondrial genes and ribosomal genes. 
   They are used to calculate the percentage of these genes per cell.
