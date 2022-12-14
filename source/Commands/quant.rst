@@ -95,7 +95,7 @@ Expected structures of Read 1 (20 bases):
 
 
 
-1. Barcode filtering
+4. Barcode filtering
 ~~~~~~~~~~~~~~~~~~~~
 There are 4 options to filter barcodes:
 
@@ -146,7 +146,18 @@ Only available for Alevin-fry pipeline. It is the method that is used in
 the whitelist command of UMI-tools to attempt to automatically determine the 
 number of true barcodes
 
+5. Mixed human and mouse experiments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+If the sample is a mixture of human cells and mouse cells (e.g. HEK and 3T3), 
+you can use `--mixed-species`_ flag to produce extra graphs. The purpose is 
+to access the doublet rate. 
+
+Briefly, we calculate the proportion of UMIs derived from human genes and mouse genes for each barcode. 
+If the proportion of human UMI is greater than the threshold (`--ratio`_), then that 
+barcode is considered to contain human cells, otherwise it contains mouse cells.
+
+We then create the `Doublet rate plot`_ and `Barnyard plot`_.
 
 
 Input
@@ -204,11 +215,34 @@ Highest Expressed Genes
 
 .. image:: /_static/img/quant/quant_highest.png
 
+
+Doublet rate plot
++++++++++++++++++
+
+
+.. image:: /_static/img/quant/quant_doublet_rate.png
+
+About the plot:
+
+* x axis: Barcodes ranked by UMI count (desending order)
+* y axis: the cumulative doublet rate. Doublet rate equals the number of mixed species 
+  barcodes divided by the total number of barcodes.
+
+Barnyard plot
++++++++++++++
+
+.. image:: /_static/img/quant/quant_barnyard.png
+
+.. note:: 
+
+    This plot only contains filtered barcodes
+
+
 Usage examples
 --------------
 
 STARsolo pipeline, single-cell workflow, RNAdia structure, filter top 100 cells
-mito, ribo genes
+mito, ribo genes, mixed species plots
 
 .. code-block:: bash
 
@@ -221,7 +255,8 @@ mito, ribo genes
         -a starsolo \
         -s RNAdia \
         --top-cells 100 \
-        --mito "^MT-" --ribo "^RP[SL]"
+        --mito "^MT-" --ribo "^RP[SL]" \
+        --mixed-species
 
 
 Alevin-fry pipeline, single-nucleus workflow, Drop-Seq structure, knee distance method
@@ -365,3 +400,19 @@ Regular Expression string of mitochondrial genes
 ++++++++++
 Default: "^RP[SL]"
 Regular Expression string of ribosomal genes
+
+Mixed species options
+~~~~~~~~~~~~~~~~~~~~~
+
+``--mixed-species``
++++++++++++++++++++
+Default: False
+
+If this flag is used, output doublet rate and barnyard plot for mixed human and mouse sample.
+
+
+``--ratio``
++++++++++++
+Default: 0.8
+
+The threshold to classify human and mouse.
